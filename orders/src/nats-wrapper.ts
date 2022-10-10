@@ -1,5 +1,4 @@
-import { Stan } from "node-nats-streaming";
-import nats from "node-nats-streaming";
+import nats, { Stan } from "node-nats-streaming";
 
 class NatsWrapper {
   private _client?: Stan;
@@ -17,6 +16,7 @@ class NatsWrapper {
     return new Promise<void>((resolve, reject) => {
       this.client.on("connect", () => {
         console.log("Connected to NATS");
+        resolve();
       });
       this.client.on("error", (err) => {
         reject(err);
