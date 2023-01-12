@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import useRequest from "./../../hooks/use-request";
-import { Router } from "next/router";
+import { useRouter } from "next/router";
 
 const OrderShow = ({ order, currentUser }) => {
+  const router = useRouter();
+
   const [timeLeft, setTimeLeft] = useState(0);
 
   const { doRequest, errors } = useRequest({
@@ -12,7 +14,7 @@ const OrderShow = ({ order, currentUser }) => {
     body: {
       orderId: order.id,
     },
-    onSuccess: () => Router.push("/orders"),
+    onSuccess: () => router.push("/orders"),
   });
 
   useEffect(() => {
@@ -36,7 +38,8 @@ const OrderShow = ({ order, currentUser }) => {
   return (
     <div>
       <p>
-        Time left to pay: {timeLeft / 60} : {timeLeft} until order expires
+        Time left to pay: {Math.round(timeLeft / 60)} : {timeLeft} until order
+        expires
       </p>
       <StripeCheckout
         token={({ id }) => doRequest({ token: id })}
@@ -49,7 +52,7 @@ const OrderShow = ({ order, currentUser }) => {
   );
 };
 
-OrderShow.getIntitialProps = async (context, client) => {
+OrderShow.getInitialProps = async (context, client) => {
   const { orderId } = context.query;
   const { data } = await client.get(`/api/orders/${orderId}`);
 

@@ -1,4 +1,5 @@
-import { Link } from "next/link";
+import Link from "next/link";
+
 const Index = ({ currentUser, tickets }) => {
   const ticketList = tickets.map((ticket) => {
     return (
@@ -37,6 +38,3 @@ Index.getInitialProps = async (context, client, currentUser) => {
 };
 
 export default Index;
-
-// kubectl get services -n ingress-nginx (get nginx services)
-// service.namespace.svc.cluster.local

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import useRequest from "./../../hooks/use-request";
-import { Router } from "next/router";
+import { useRouter } from "next/router";
 
 const NewTicket = () => {
+  const router = useRouter();
+
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
 
@@ -10,7 +12,7 @@ const NewTicket = () => {
     url: "/api/tickets",
     method: "post",
     body: { title, price },
-    onSuccess: () => Router.push("/"),
+    onSuccess: () => router.push("/"),
   });
 
   const onBlurHandler = () => {
